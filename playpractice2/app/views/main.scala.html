@@ -1,0 +1,77 @@
+@*
+* This template is called from the `index` template. This template
+* handles the rendering of the page header and body tags. It takes
+* two arguments, a `String` for the title of the page and an `Html`
+* object to insert into the body of the page.
+*@
+@(title: String)(content: Html)(implicit messages: Messages, flash: Flash)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @* Here's where we render the page title `String`. *@
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap-theme.min.css")">
+
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+
+        <script async src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.min.js")"
+        crossorigin="anonymous" type="text/javascript">
+        </script>
+        <script defer src="@routes.Assets.versioned("lib/jquery/jquery.min.js")" crossorigin="anonymous" type="text/javascript">
+        </script>
+        <script defer src="@routes.Assets.versioned("javascripts/main.js")" crossorigin="anonymous"></script>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+
+    </head>
+    <body>
+        <div class="screenshot">
+            <nav class="navbar navbar-fixed-top navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="@routes.MainApplication.index()">
+                            @messages("application.name")
+                        </a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="divider-vertical"></li>
+                        <li class="active">
+                            <a href="@routes.Products.list()">
+                                @messages("products.list.navigation")
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@routes.Products.newProduct()">
+                                <span class="glyphicon glyphicon-plus">
+                                </span>
+                                @messages("products.new.command")
+                            </a>
+                        </li>
+                        <li class="divider-vertical"></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container">
+                @if(flash.get("success").isDefined) {
+                    <div class="alert alert-success" id="success-alert">
+                    @flash.get("success")
+                    </div>
+                }
+
+                @if(flash.get("error").isDefined) {
+                    <div class="alert alert-danger" id="error-alert">
+                    @flash.get("error")
+                    </div>
+                }
+                @content
+                @debug()
+            </div>
+        </div>
+    </body>
+</html>

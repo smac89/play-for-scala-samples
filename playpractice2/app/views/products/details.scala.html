@@ -1,0 +1,26 @@
+@(product: Product)(implicit messages: Messages, flash: Flash)
+
+@main(messages("products.details", product.name)) {
+    <div>
+        @tags.barcode(product.ean)
+        <h2>
+            @messages("products.details", product.name)
+        </h2>
+        <dl class="dl-horizontal">
+            <dt>@messages("ean"):</dt>
+            <dd>@product.ean</dd>
+
+            <dt>@messages("name"):</dt>
+            <dd>@product.name</dd>
+
+            <dt>@messages("description"):</dt>
+            <dd>@product.description</dd>
+        </dl>
+
+        <a href="@routes.Products.editProduct(product.ean)" class="btn btn-primary" role="button">
+            <span class="glyphicon glyphicon-edit"></span>
+            @messages("products.edit.command")
+        </a>
+
+    </div>
+}

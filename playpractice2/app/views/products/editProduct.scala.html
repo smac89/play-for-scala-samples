@@ -1,0 +1,45 @@
+@import b3.vertical.fieldConstructor
+@import helper._
+
+@(productForm: Form[Product], newProduct: Option[Product] = None)(implicit flash: Flash,
+        messages: Messages, requestHeader: RequestHeader)
+
+@if(productForm.hasErrors) {
+    @flash.+("error", productForm.errors.map(_.message).mkString("\n"))
+    @*<div class="alert alert-danger" id="error-alert">*@
+    @*@for(error <- productForm.errors) {*@
+        @*@error.message<br/>*@
+    @*}*@
+    @*</div>*@
+}
+
+@main(Messages("products.form")) {
+
+
+    <h2><strong>@messages("products.form")</strong></h2>
+    @b3.form(CSRF(routes.Products.save())) {
+        <fieldset>
+            <legend>
+                @if(newProduct.nonEmpty) {
+                    @messages("products.details", productForm.forField("name") {
+                        _.value.getOrElse(messages("products.new"))
+                    })
+                } else {
+                    @messages("products.details", messages("products.new"))
+                }
+
+            </legend>
+            @b3.text(productForm("ean"), '_label -> messages("ean"))
+            @b3.text(productForm("name"), '_label -> messages("name"))
+            @b3.textarea(productForm("description"), '_label -> messages("description"))
+        </fieldset>
+
+        <input type="submit" class="btn btn-primary" value='
+            @if(newProduct.isEmpty) {
+                @messages("products.new.submit")
+            } else {
+                @messages("products.edit.submit")
+            }
+        '>
+    }
+}
